@@ -1,0 +1,39 @@
+{
+  "name": "usbinfo",
+  "description": "USB device info",
+  "version": "0.0.1",
+  "homepage": "https://github.com/marcopiraccini/usbinfo",
+  "author": {
+    "name": "Marco Piraccini",
+    "email": "marco.piraccini@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marcopiraccini/usbinfo.git"
+  },
+  "scripts": {
+    "lint": "standard",
+    "depcheck": "dependency-check package.json --unused --no-dev --entry test/*.js --entry index.js",
+    "test": "node test/test.js | faucet"
+  },
+  "engines": {
+    "node": ">=4.2.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "dependency-check": "^2.5.1",
+    "faucet": "0.0.1",
+    "git-hooks": "^1.0.0",
+    "standard": "~5.3.0",
+    "tape": "^4.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/marcopiraccini/usbinfo/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "main": "./index"
+}
