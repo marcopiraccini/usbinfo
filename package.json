@@ -23,6 +23,9 @@
     "end-of-stream": "^1.1.0",
     "split2": "^2.0.1"
   },
+  "keywords": [
+    "usb"
+  ],
   "devDependencies": {
     "dependency-check": "^2.5.1",
     "faucet": "0.0.1",
