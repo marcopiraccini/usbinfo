@@ -1,7 +1,6 @@
 # usbinfo
-Used to load USB info from `idVendor` and `idProduct`.
-If `idProduct` is missing or the `idProduct` is unknown, only the vendor is shown.
-
+Used to load USB info from `idVendor` and `idProduct` for Device and Vendor.
+Other info (classes, protocols) will be added.
 Uses http://www.linux-usb.org/usb.ids to identify the IDs
 
 # Usage
