@@ -108,7 +108,24 @@ var getUsbInfoCached = function (cb) {
 
 var getUsbInfo = getUsbInfoCached()
 
-var getDevice = function (vendorId, deviceId, cb) {
+var getVendor = function (vendorId, cb) {
+  getUsbInfo((err, info) => {
+    if (err) return cb(err)
+    var found = info.device.reduce((prev, item) => {
+      if ((item.path[0] === vendorId) && (item.path.length === 1)) {
+        prev = item
+      }
+      return prev
+    }, null)
+    if (!found) return cb()
+    return cb(null, {
+      vendorId: found.path[0],
+      vendor: found.value
+    })
+  })
+}
+
+var getProduct = function (vendorId, deviceId, cb) {
   getUsbInfo((err, info) => {
     if (err) return cb(err)
     var found = info.device.reduce((prev, item) => {
@@ -118,32 +135,20 @@ var getDevice = function (vendorId, deviceId, cb) {
       return prev
     }, null)
     if (!found) return cb()
-    cb(null, {
-      vendorId: found.path[0],
-      deviceId: found.path[1],
-      description: found.value
-    })
-  })
-}
 
-var getVendor = function (vendorId, cb) {
-  getUsbInfo((err, info) => {
-    if (err) return cb(err)
-    var found = info.device.reduce((prev, item) => {
-      if (item.path[0] === vendorId) {
-        prev = item
-      }
-      return prev
-    }, null)
-    if (!found) return cb()
-    return cb(null, {
-      vendorId: found.path[0],
-      description: found.value
+    getVendor(vendorId, (err, vendor) => {
+      if (err) return cb(err)
+      cb(null, {
+        vendorId: found.path[0],
+        productId: found.path[1],
+        vendor: vendor.vendor,
+        product: found.value
+      })
     })
   })
 }
 
 module.exports = {
-  getDevice: getDevice,
+  getProduct: getProduct,
   getVendor: getVendor
 }
