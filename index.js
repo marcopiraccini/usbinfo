@@ -108,7 +108,15 @@ var getUsbInfoCached = function (cb) {
 
 var getUsbInfo = getUsbInfoCached()
 
+function pad (input, length, padding) {
+  while ((input = input.toString()).length + (padding = padding.toString()).length < length) {
+    padding += padding
+  }
+  return padding.substr(0, length - input.length) + input
+}
+
 var getVendor = function (vendorId, cb) {
+  vendorId = pad(vendorId, 4, '0')
   getUsbInfo((err, info) => {
     if (err) return cb(err)
     var found = info.device.reduce((prev, item) => {
@@ -125,25 +133,34 @@ var getVendor = function (vendorId, cb) {
   })
 }
 
-var getProduct = function (vendorId, deviceId, cb) {
+var getProduct = function (vendorId, productId, cb) {
+  productId = pad(productId, 4, '0')
+  vendorId = pad(vendorId, 4, '0')
+
   getUsbInfo((err, info) => {
     if (err) return cb(err)
-    var found = info.device.reduce((prev, item) => {
-      if ((item.path[0] === vendorId) && (item.path[1] === deviceId)) {
-        prev = item
-      }
-      return prev
-    }, null)
-    if (!found) return cb()
 
     getVendor(vendorId, (err, vendor) => {
       if (err) return cb(err)
-      cb(null, {
-        vendorId: found.path[0],
-        productId: found.path[1],
-        vendor: vendor.vendor,
-        product: found.value
-      })
+      if (!vendor) return cb()
+
+      var found = info.device.reduce((prev, item) => {
+        if ((item.path[0] === vendorId) && (item.path[1] === productId)) {
+          prev = item
+        }
+        return prev
+      }, null)
+
+      var ret = {
+        vendorId: vendorId,
+        productId: productId,
+        vendor: vendor.vendor
+      }
+
+      if (found) {
+        ret.product = found.value
+      }
+      cb(null, ret)
     })
   })
 }

@@ -33,6 +33,21 @@ test('Test Get Product - existing vendor and device - 2', function (t) {
   })
 })
 
+test('Test Get Product - existing vendor and device - no padded id', function (t) {
+  var expected = {
+    vendorId: '0001',
+    productId: '7778',
+    product: 'Counterfeit flash drive [Kingston]',
+    vendor: 'Fry\'s Electronics'
+  }
+
+  usbinfo.getProduct('1', '7778', (err, device) => {
+    if (err) t.fail(err)
+    t.deepEqual(device, expected)
+    t.end()
+  })
+})
+
 test('Test Get Product - NOT existing vendor and device', function (t) {
   usbinfo.getProduct('xxx', 'yyyy', (err, device) => {
     if (err) t.fail(err)
@@ -42,9 +57,14 @@ test('Test Get Product - NOT existing vendor and device', function (t) {
 })
 
 test('Test Get Product - existing vendor but not device', function (t) {
+  var expected = {
+    vendorId: '0001',
+    productId: 'yyyy',
+    vendor: 'Fry\'s Electronics'
+  }
   usbinfo.getProduct('0001', 'yyyy', (err, device) => {
     if (err) t.fail(err)
-    t.notOk(device)
+    t.deepEqual(device, expected)
     t.end()
   })
 })
@@ -55,7 +75,7 @@ test('Test Get Vendor - existing vendor with no devices', function (t) {
     vendor: 'Iwatsu America, Inc.'
   }
 
-  usbinfo.getVendor('03ec', (err, vendor) => {
+  usbinfo.getVendor('3ec', (err, vendor) => {
     if (err) t.fail(err)
     t.deepEqual(vendor, expected)
     t.end()
