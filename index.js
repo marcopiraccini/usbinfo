@@ -45,7 +45,7 @@ var getUsbInfoCached = function (cb) {
     //    currentPath.push(key)
     // (All that works because the list is ordered)
 
-    var usbInfoStream = fs.createReadStream('./ids/usb.ids')
+    var usbInfoStream = fs.createReadStream(__dirname + '/ids/usb.ids')
       .pipe(split2())
       .on('data', function (line) {
         if ((line.trim().startsWith('#')) || (!line.trim())) return // Skip comments and empty lines
