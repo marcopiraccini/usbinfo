@@ -1,13 +1,10 @@
 # usbinfo
 
-Used to load USB info from `idVendor` and `idProduct` for Device and Vendor.
-Other info (classes, protocols) will be added.
-Uses http://www.linux-usb.org/usb.ids to identify the IDs
+Identify USB devices based on their vendor and product IDs using the [Linux USB ID list](http://www.linux-usb.org/usb.ids).
 
 # Usage
 
-`idVendor` and `idProduct` must be in the form of hex strings, filled with
-trailing zeroes (e.g. `0002` and not`2`). If not, the pad with leading zeroes is done automatically.
+`idVendor` and `idProduct` should be hex strings (e.g. `0002`). Padding is optional.
 
 ### getProduct
 
