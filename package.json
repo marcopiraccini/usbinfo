@@ -1,7 +1,7 @@
 {
   "name": "usbinfo",
   "description": "USB device info",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "homepage": "https://github.com/marcopiraccini/usbinfo",
   "author": {
     "name": "Marco Piraccini",
@@ -12,9 +12,9 @@
     "url": "git://github.com/marcopiraccini/usbinfo.git"
   },
   "scripts": {
-    "lint": "standard",
-    "depcheck": "dependency-check package.json --unused --no-dev --entry test/*.js --entry index.js",
-    "test": "node test/test.js | faucet"
+    "lint": "tslint --project tsconfig.json",
+    "depcheck": "dependency-check package.json --unused --no-dev --entry dist/*.js",
+    "test": "tsc && node dist/test.js | faucet"
   },
   "engines": {
     "node": ">=4.2.0"
@@ -27,14 +27,15 @@
     "usb"
   ],
   "devDependencies": {
+    "@types/end-of-stream": "^1.4.0",
+    "@types/split2": "^2.1.6",
+    "@types/tape": "^4.2.33",
     "dependency-check": "^2.5.1",
     "faucet": "0.0.1",
     "git-hooks": "^1.0.0",
     "standard": "~5.3.0",
-    "eslint": "^1.6.0",
-    "eslint-config-standard": "^4.4.0",
-    "eslint-plugin-standard": "^1.3.1",
-    "tape": "^4.0.0"
+    "tape": "^4.9.2",
+    "ts-node": "^7.0.1"
   },
   "bugs": {
     "url": "https://github.com/marcopiraccini/usbinfo/issues"
@@ -44,5 +45,5 @@
       "type": "MIT"
     }
   ],
-  "main": "./index"
+  "main": "./dist/usbinfo.js"
 }
